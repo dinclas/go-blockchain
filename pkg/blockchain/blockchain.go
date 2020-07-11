@@ -27,11 +27,12 @@ func (bc *Blockchain) ReplaceChain(chain []*Block) {
 		return
 	}
 
-	bc.Blocks = chain
+	bc.Blocks = make([]*Block, len(chain))
+	copy(bc.Blocks, chain)
 }
 
 func isValid(chain []*Block) bool {
-	if chain[0] != Genesis() {
+	if !bytes.Equal(chain[0].Hash, Genesis().Hash) {
 		return false
 	}
 
@@ -40,6 +41,8 @@ func isValid(chain []*Block) bool {
 		if !bytes.Equal(lastBlock.Hash, block.LastBlockHash) || !bytes.Equal(block.Hash, blockHash(block)) {
 			return false
 		}
+
+		lastBlock = block
 	}
 
 	return true

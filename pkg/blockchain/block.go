@@ -25,7 +25,7 @@ func NewBlock(timestamp time.Time, lastBlockHash []byte, data interface{}) *Bloc
 }
 
 func Genesis() *Block {
-	return NewBlock(time.Now(), nil, nil)
+	return NewBlock(time.Unix(909799200, 0), nil, "octopus")
 }
 
 func (b Block) String() string {
