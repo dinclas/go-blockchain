@@ -30,7 +30,8 @@ func Genesis() *Block {
 
 func (b Block) String() string {
 	jsonData, _ := json.Marshal(b.Data)
-	return fmt.Sprintf("block={\n\t%d\n\t%s\n\t%s\n}", b.Timestamp.UnixNano(),
+	return fmt.Sprintf("block={\n\t%d\n\t%s\n\t%s\n}",
+		b.Timestamp.UnixNano(),
 		jsonData,
 		hex.EncodeToString(b.Hash))
 }
@@ -41,5 +42,9 @@ func hash(timestamp time.Time, lastBlockHash []byte, data interface{}) []byte {
 	})
 	value := sha256.Sum256(msg)
 	return value[:]
+}
+
+func blockHash(block *Block) []byte {
+	return hash(block.Timestamp, block.LastBlockHash, block.Data);
 }
 
